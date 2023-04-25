@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Table(name: 'subscription')]
 #[ORM\Index(columns: ['author_id'], name: 'subscription__author_id__ind')]
@@ -30,6 +31,10 @@ class Subscription
 
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: false)]
     private DateTime $updatedAt;
+
+    #[ORM\Column(name: '`order`', type: 'integer')]
+    #[Gedmo\SortablePosition]
+    private ?int $order;
 
     public function getId(): int
     {
@@ -75,5 +80,15 @@ class Subscription
 
     public function setUpdatedAt(): void {
         $this->updatedAt = new DateTime();
+    }
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?int $order): void
+    {
+        $this->order = $order;
     }
 }

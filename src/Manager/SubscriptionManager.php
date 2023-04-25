@@ -12,13 +12,14 @@ class SubscriptionManager
     {
     }
 
-    public function createSubscription(User $author, User $follower): Subscription
+    public function createSubscription(User $author, User $follower, ?int $order): Subscription
     {
         $subscription = new Subscription();
         $subscription->setAuthor($author);
         $subscription->setFollower($follower);
         $subscription->setCreatedAt();
         $subscription->setUpdatedAt();
+        $subscription->setOrder($order);
         $author->addFollower($subscription);
         $follower->addAuthor($subscription);
         $this->entityManager->persist($subscription);

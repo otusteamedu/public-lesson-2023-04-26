@@ -25,7 +25,8 @@ class SubscriptionController
     {
         $authorId = $request->request->get('authorId');
         $followerId = $request->request->get('followerId');
-        $subscription = $this->subscriptionService->createSubscription($authorId, $followerId);
+        $order = $request->request->get('order');
+        $subscription = $this->subscriptionService->createSubscription($authorId, $followerId, $order);
         $code = $subscription === null ? Response::HTTP_BAD_REQUEST : Response::HTTP_OK;
 
         return new JsonResponse(['success' => $subscription !== null], $code);

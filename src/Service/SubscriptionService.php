@@ -16,8 +16,7 @@ class SubscriptionService
     {
     }
 
-
-    public function createSubscription(int $authorId, int $followerId): ?Subscription
+    public function createSubscription(int $authorId, int $followerId, ?int $order): ?Subscription
     {
         $author = $this->userManager->getUser($authorId);
         $follower = $this->userManager->getUser($followerId);
@@ -25,7 +24,7 @@ class SubscriptionService
             return null;
         }
 
-        return $this->subscriptionManager->createSubscription($author, $follower);
+        return $this->subscriptionManager->createSubscription($author, $follower, $order);
     }
 
     public function deleteSubscription(int $authorId, int $followerId): bool

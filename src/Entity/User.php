@@ -33,6 +33,7 @@ class User
     private Collection $authors;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: 'Subscription')]
+    #[ORM\OrderBy(['order' => 'asc'])]
     private Collection $followers;
 
     #[ORM\Column(name: 'deleted_at', type: 'datetime', nullable: true)]
@@ -130,6 +131,7 @@ class User
                     'subscriptionId' => $subscription->getId(),
                     'userId' => $subscription->getFollower()->getId(),
                     'login' => $subscription->getFollower()->getLogin(),
+                    'order' => $subscription->getOrder(),
                 ],
                 $this->followers->toArray()
             ),
@@ -138,6 +140,7 @@ class User
                     'subscriptionId' => $subscription->getId(),
                     'userId' => $subscription->getAuthor()->getId(),
                     'login' => $subscription->getAuthor()->getLogin(),
+                    'order' => $subscription->getOrder(),
                 ],
                 $this->authors->toArray()
             ),
