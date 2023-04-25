@@ -58,6 +58,15 @@ class UserManager
         return $userRepository->find($userId);
     }
 
+    public function getUserIgnoreDeleted(int $userId): ?User
+    {
+        $filters = $this->entityManager->getFilters();
+        $filters->disable('softdeleteable');
+        $userRepository = $this->entityManager->getRepository(User::class);
+
+        return $userRepository->find($userId);
+    }
+
     public function getUserWithQueryBuilder(int $userId): ?User
     {
         $qb = $this->entityManager->createQueryBuilder();

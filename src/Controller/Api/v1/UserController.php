@@ -40,7 +40,7 @@ class UserController
     #[Route(path: '/{id}', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getUserAction(int $id): Response
     {
-        $user = $this->userManager->getUserWithQueryBuilder($id);
+        $user = $this->userManager->getUserIgnoreDeleted($id);
         [$data, $code] = $user === null ?
             [null, Response::HTTP_NOT_FOUND] :
             [['user' => $user->toArray()], Response::HTTP_OK];
