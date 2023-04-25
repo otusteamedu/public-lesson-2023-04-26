@@ -51,6 +51,22 @@ class UserManager
         return true;
     }
 
+    public function hardDeleteUser(int $userId): bool
+    {
+        $userRepository = $this->entityManager->getRepository(User::class);
+        /** @var User $user */
+        $user = $userRepository->find($userId);
+        if ($user === null) {
+            return false;
+        }
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
     public function getUser(int $userId): ?User
     {
         $userRepository = $this->entityManager->getRepository(User::class);

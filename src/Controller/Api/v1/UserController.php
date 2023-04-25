@@ -52,7 +52,7 @@ class UserController
     public function deleteUserAction(Request $request): Response
     {
         $userId = $request->query->get('userId');
-        $result = $this->userManager->deleteUser($userId);
+        $result = $this->userManager->hardDeleteUser($userId);
 
         return new JsonResponse(['success' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
