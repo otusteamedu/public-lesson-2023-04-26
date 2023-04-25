@@ -16,7 +16,10 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
                 type: attribute
-
+        filters:
+            softdeleteable:
+                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                enabled: true
 when@test:
     doctrine:
         dbal:

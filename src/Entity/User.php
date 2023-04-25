@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Table(name: '`user`')]
 #[ORM\Entity]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt')]
 class User
 {
     #[ORM\Column(name: 'id', type: 'bigint', unique: true)]
@@ -33,6 +34,9 @@ class User
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: 'Subscription')]
     private Collection $followers;
+
+    #[ORM\Column(name: 'deleted_at', type: 'datetime', nullable: true)]
+    private ?DateTime $deletedAt;
 
     public function __construct()
     {
@@ -74,6 +78,16 @@ class User
 
     public function setUpdatedAt(): void {
         $this->updatedAt = new DateTime();
+    }
+
+    public function getDeletedAt(): ?DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 
     public function addAuthor(Subscription $subscription): void
