@@ -16,8 +16,6 @@ class UserManager
     {
         $user = new User();
         $user->setLogin($login);
-        $user->setCreatedAt();
-        $user->setUpdatedAt();
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
@@ -33,7 +31,6 @@ class UserManager
             return null;
         }
         $user->setLogin($login);
-        $user->setUpdatedAt();
         $this->entityManager->flush();
 
         return $user;
