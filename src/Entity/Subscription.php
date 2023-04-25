@@ -20,6 +20,7 @@ class Subscription
 
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'subscriptionFollowers')]
     #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
+    #[Gedmo\SortableGroup]
     private User $author;
 
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'subscriptionAuthors')]
