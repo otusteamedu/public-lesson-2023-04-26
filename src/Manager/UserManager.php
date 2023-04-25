@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 
 class UserManager
 {
@@ -55,6 +56,18 @@ class UserManager
         $userRepository = $this->entityManager->getRepository(User::class);
 
         return $userRepository->find($userId);
+    }
+
+    public function getUserWithQueryBuilder(int $userId): ?User
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('u')
+            ->from(User::class, 'u')
+            ->where($qb->expr()->eq('u.id', ':id'))
+            ->setParameter('id', $userId);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

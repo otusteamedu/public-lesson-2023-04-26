@@ -4,6 +4,7 @@ namespace App\Controller\Api\v1;
 
 use App\Entity\User;
 use App\Manager\UserManager;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,11 +37,10 @@ class UserController
         return new JsonResponse(['users' => array_map(static fn(User $user) => $user->toArray(), $users)], $code);
     }
 
-
     #[Route(path: '/{id}', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getUserAction(int $id): Response
     {
-        $user = $this->userManager->getUser($id);
+        $user = $this->userManager->getUserWithQueryBuilder($id);
         [$data, $code] = $user === null ?
             [null, Response::HTTP_NOT_FOUND] :
             [['user' => $user->toArray()], Response::HTTP_OK];
